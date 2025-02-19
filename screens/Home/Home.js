@@ -1,5 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 
@@ -11,6 +12,8 @@ import Button from '../../components/Button/Button';
 import Tab from '../../components/Tab/Tab';
 import Badge from '../../components/Badge/Badge';
 import Search from '../../components/Search/Search';
+import SingleDonationItem from '../../components/SingleDonationItem/SingleDonationItem';
+import {horizontalScale} from '../../assets/styles/scalling';
 
 const Home = () => {
   return (
@@ -32,6 +35,25 @@ const Home = () => {
           console.log({value});
         }}
       />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          paddingHorizontal: horizontalScale(24),
+        }}>
+        <SingleDonationItem
+          url="https://picsum.photos/200"
+          badgeTitle="Environment"
+          donationTitle="Tree Plantation"
+          price={10}
+        />
+        <SingleDonationItem
+          url="https://picsum.photos/200"
+          badgeTitle="Environment"
+          donationTitle="Tree Plantation"
+          price={10}
+        />
+      </View>
     </SafeAreaView>
   );
 };

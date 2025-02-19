@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import style from './styles';
 
-const Header = ({title = '', types = 1}) => {
+const Header = ({title = '', types = 1, color = '#000000'}) => {
   const styleToApply = () => {
     switch (types) {
       case 1:
@@ -19,7 +19,7 @@ const Header = ({title = '', types = 1}) => {
 
   return (
     <View>
-      <Text style={styleToApply()}>{title}</Text>
+      <Text style={[styleToApply(), color && {color: color}]}>{title}</Text>
     </View>
   );
 };
@@ -27,6 +27,7 @@ const Header = ({title = '', types = 1}) => {
 Header.propTypes = {
   title: PropTypes.string,
   types: PropTypes.number,
+  color: PropTypes.string,
 };
 
 export default Header;
