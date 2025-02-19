@@ -6,6 +6,7 @@ import Header from '../../components/Header/Header';
 // import style from './style';
 import globalStyle from '../../assets/styles/globalStyle';
 import Button from '../../components/Button/Button';
+import Tab from '../../components/Tab/Tab';
 
 const Home = () => {
   return (
@@ -18,6 +19,8 @@ const Home = () => {
         }}
       />
       <Button title={'Donate'} isDisabled={true} />
+      <Tab title={'Tab 1'} />
+      <Tab title={'Tab 2'} isInactive={true} />
     </SafeAreaView>
   );
 };
