@@ -9,6 +9,7 @@ const Tab = ({
   title = '',
   isInactive: isInactive = false,
   onPress = () => {},
+  tabId = null,
 }) => {
   const [width, setWidth] = useState(0);
   const textRef = useRef(null);
@@ -19,10 +20,10 @@ const Tab = ({
 
   return (
     <Pressable
-      disabled={isInactive}
+      // disabled={isInactive}
       style={[style.tab, isInactive && style.inactiveTab, tabWidth]}
       onPress={() => {
-        onPress();
+        onPress(tabId);
       }}>
       <Text
         onTextLayout={e => {
@@ -37,6 +38,7 @@ const Tab = ({
 };
 
 Tab.propTypes = {
+  tabId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   isInactive: PropTypes.bool,
   onPress: PropTypes.func,

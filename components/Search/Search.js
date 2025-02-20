@@ -6,7 +6,7 @@ import {faSearch} from '@fortawesome/free-solid-svg-icons';
 import {scaleFontSize} from '../../assets/styles/scalling';
 import PropTypes from 'prop-types';
 
-const Search = ({onSearch = () => {}}) => {
+const Search = ({onSearch = () => {}, placeholder = 'Search'}) => {
   const textInputRef = useRef(null);
   const [search, setSearch] = useState('');
 
@@ -27,13 +27,15 @@ const Search = ({onSearch = () => {}}) => {
         size={scaleFontSize(22)}
       />
       <TextInput
+        placeholder={placeholder}
         ref={textInputRef}
+        style={style.searchInput}
         value={search}
         onChangeText={value => {
           handleSearch(value);
         }}
-        style={style.searchInput}
-        underlineColorAndroid={'transparent'}
+        underlineColorAndroid="transparent"
+        placeholderTextColor={style.searchInput.color} // Add this line to match placeholder style
       />
     </Pressable>
   );
@@ -41,6 +43,7 @@ const Search = ({onSearch = () => {}}) => {
 
 Search.propTypes = {
   onSearch: PropTypes.func,
+  placeholder: PropTypes.string,
 };
 
 export default Search;
