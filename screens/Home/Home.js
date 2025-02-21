@@ -138,8 +138,9 @@ const Home = ({navigation}) => {
               <View key={value.donationItemId} style={style.singleDonationItem}>
                 <SingleDonationItem
                   onPress={selectedDonationId => {
+                    //it just depactach the selected donation id to the redux store
                     dispatch(updateSelectedDonationId(selectedDonationId));
-                    navigation.navigate(Routes.DonationItemScreen);
+                    navigation.navigate(Routes.SingleDonationScreen);
                   }}
                   donationItemId={value.donationItemId}
                   url={value.image}
