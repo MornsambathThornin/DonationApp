@@ -7,7 +7,7 @@ import {
 
 const style = StyleSheet.create({
   header: {
-    marginTop: verticalScale(20),
+    marginTop: verticalScale(10),
     marginHorizontal: horizontalScale(24),
     flexDirection: 'row',
     alignItems: 'center',
@@ -24,10 +24,9 @@ const style = StyleSheet.create({
     marginTop: verticalScale(5),
   },
   profileImage: {
-    width: horizontalScale(50),
-    height: verticalScale(50),
-    borderRadius: horizontalScale(50) / 2,
-    // marginTop: verticalScale(10),
+    width: 50,
+    height: 50,
+    borderRadius: 100,
   },
 
   searchBox: {
@@ -54,6 +53,19 @@ const style = StyleSheet.create({
 
   categoryItem: {
     marginRight: horizontalScale(0),
+  },
+
+  donationItemsContainer: {
+    marginHorizontal: horizontalScale(24),
+    marginTop: verticalScale(20),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+  },
+
+  singleDonationItem: {
+    maxWidth: '49%',
+    marginBottom: verticalScale(23),
   },
 });
 

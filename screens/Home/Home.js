@@ -10,38 +10,48 @@ import {
   Text,
   View,
 } from 'react-native';
+
 import {useDispatch, useSelector} from 'react-redux';
 
-import globalStyle from '../../assets/styles/globalStyle';
-import style from './style';
 import Header from '../../components/Header/Header';
 import Search from '../../components/Search/Search';
 import Tab from '../../components/Tab/Tab';
 import {horizontalScale} from '../../assets/styles/scalling';
 import {updateSelectedCategoryId} from '../../redux/reducers/Categories';
-//import {resetCategories} from '../../redux/reducers/Categories';
-// import {resetToInitialState} from '../../redux/reducers/user';
 
-const Home = () => {
+import globalStyle from '../../assets/styles/globalStyle';
+import style from './style';
+import SingleDonationItem from '../../components/SingleDonationItem/SingleDonationItem';
+import {updateSelectedDonationId} from '../../redux/reducers/Donations';
+import {Routes} from '../../navigation/Routes';
+
+const Home = ({navigation}) => {
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
   const categories = useSelector(state => state.categories);
+  const donations = useSelector(state => state.donations);
 
-  const [catagoryPage, setCategoryPage] = useState(1);
+  const [donationItems, setDonationItems] = useState([]);
+  const [categoryPage, setCategoryPage] = useState(1);
   const [categoryList, setCategoryList] = useState([]);
   const [isLoadingCategories, setIsLoadingCategories] = useState(false);
   const categoryPageSize = 4;
 
   useEffect(() => {
+    const items = donations.items.filter(value =>
+      value.categoryIds.includes(categories.selectedCategoryId),
+    );
+    setDonationItems(items);
+  }, [categories.selectedCategoryId]);
+
+  useEffect(() => {
     setIsLoadingCategories(true);
     setCategoryList(
-      pagination(categories.categories, catagoryPage, categoryPageSize),
-      setCategoryPage(prev => prev + 1),
+      pagination(categories.categories, categoryPage, categoryPageSize),
     );
+    setCategoryPage(prev => prev + 1);
     setIsLoadingCategories(false);
   }, []);
-
-  console.log('selected category id', categoryList.length);
 
   const pagination = (items, pageNumber, pageSize) => {
     const startIndex = (pageNumber - 1) * pageSize;
@@ -56,11 +66,11 @@ const Home = () => {
     if (isLoadingCategories) {
       return;
     }
-    console.log('have reached end to page number ' + catagoryPage);
+
     setIsLoadingCategories(true);
     let newData = pagination(
       categories.categories,
-      catagoryPage,
+      categoryPage,
       categoryPageSize,
     );
     if (newData.length > 0) {
@@ -122,6 +132,29 @@ const Home = () => {
             onEndReachedThreshold={0.5}
           />
         </View>
+        {donationItems.length > 0 && (
+          <View style={style.donationItemsContainer}>
+            {donationItems.map(value => (
+              <View key={value.donationItemId} style={style.singleDonationItem}>
+                <SingleDonationItem
+                  onPress={selectedDonationId => {
+                    dispatch(updateSelectedDonationId(selectedDonationId));
+                    navigation.navigate(Routes.DonationItemScreen);
+                  }}
+                  donationItemId={value.donationItemId}
+                  url={value.image}
+                  donationTitle={value.name}
+                  badgeTitle={
+                    categories.categories.filter(
+                      val => val.categoryId === categories.selectedCategoryId,
+                    )[0].name
+                  }
+                  price={parseFloat(value.price)}
+                />
+              </View>
+            ))}
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
