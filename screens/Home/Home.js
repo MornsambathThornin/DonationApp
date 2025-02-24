@@ -134,26 +134,32 @@ const Home = ({navigation}) => {
         </View>
         {donationItems.length > 0 && (
           <View style={style.donationItemsContainer}>
-            {donationItems.map(value => (
-              <View key={value.donationItemId} style={style.singleDonationItem}>
-                <SingleDonationItem
-                  onPress={selectedDonationId => {
-                    //it just depactach the selected donation id to the redux store
-                    dispatch(updateSelectedDonationId(selectedDonationId));
-                    navigation.navigate(Routes.SingleDonationScreen);
-                  }}
-                  donationItemId={value.donationItemId}
-                  url={value.image}
-                  donationTitle={value.name}
-                  badgeTitle={
-                    categories.categories.filter(
-                      val => val.categoryId === categories.selectedCategoryId,
-                    )[0].name
-                  }
-                  price={parseFloat(value.price)}
-                />
-              </View>
-            ))}
+            {donationItems.map(value => {
+              const categoryInfomation = categories.categories.find(
+                val => val.categoryId === categories.selectedCategoryId,
+              );
+
+              return (
+                <View
+                  key={value.donationItemId}
+                  style={style.singleDonationItem}>
+                  <SingleDonationItem
+                    onPress={selectedDonationId => {
+                      //it just depactach the selected donation id to the redux store
+                      dispatch(updateSelectedDonationId(selectedDonationId));
+                      navigation.navigate(Routes.SingleDonationScreen, {
+                        categoryInfomation,
+                      });
+                    }}
+                    donationItemId={value.donationItemId}
+                    url={value.image}
+                    donationTitle={value.name}
+                    badgeTitle={categoryInfomation.name}
+                    price={parseFloat(value.price)}
+                  />
+                </View>
+              );
+            })}
           </View>
         )}
       </ScrollView>
