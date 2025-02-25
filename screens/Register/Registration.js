@@ -6,15 +6,30 @@ import style from './style';
 import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
 import BackButton from '../../components/BackButton/BackButton';
+import {createUser} from '../../api/user';
+import {Routes} from '../../navigation/Routes';
+import {Text} from 'react-native-gesture-handler';
 
 const Registration = ({navigation}) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
+
   // console.log(fullName);
   // console.log(email);
   // console.log(password);
+
+  // const validateEmail = email => {
+  //   const re = /\S+@\S+\.\S+/;
+  //   return re.test(email);
+  // };
+
+  // const validatePassword = password => {
+  //   return password.length < 8;
+  // };
 
   return (
     <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.flex]}>
@@ -50,11 +65,25 @@ const Registration = ({navigation}) => {
             secureTextEntry={true}
           />
         </View>
+        {error.length > 0 && <Text style={style.error}>{error} </Text>}
+        {success.length > 0 && <Text style={style.success}>{success} </Text>}
         <View style={globalStyle.marginBottom24}>
           <Button
+            isDisabled={
+              fullName.length <= 2 || email.length <= 5 || password.length < 8
+            }
             title={'Registration'}
-            onPress={() => {
-              console.log('Registration button clicked');
+            onPress={async () => {
+              let user = await createUser(fullName, email, password);
+              if (user.error) {
+                setError(user.error);
+              } else {
+                setError('');
+                setSuccess('Registration successful!');
+                setTimeout(() => {
+                  navigation.navigate(Routes.Login);
+                }, 1000);
+              }
             }}
           />
         </View>

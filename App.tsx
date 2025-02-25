@@ -1,4 +1,3 @@
-
 import React from 'react';
 import MainNavigation from './navigation/MainNavigation';
 import { NavigationContainer } from '@react-navigation/native';
@@ -6,11 +5,12 @@ import { Provider } from 'react-redux';
 import store, { persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { StatusBar } from 'react-native';
+import './firebaseConfig'; // Ensure Firebase is initialized
 
 const App = () => {
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor} loading={null} >
+      <PersistGate persistor={persistor} loading={null}>
         <NavigationContainer>
           <StatusBar barStyle="dark-content" backgroundColor="white" />
           <MainNavigation />
@@ -19,6 +19,5 @@ const App = () => {
     </Provider>
   );
 };
-
 
 export default App;
