@@ -1,5 +1,5 @@
 import {Pressable, SafeAreaView, ScrollView, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import globalStyle from '../../assets/styles/globalStyle';
 import Input from '../../components/Input/Input';
 import style from './style';
@@ -7,16 +7,21 @@ import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
 import {Routes} from '../../navigation/Routes';
 import {loginUser} from '../../api/user';
+import {useDispatch, useSelector} from 'react-redux';
+import {logIn, resetToInitialState} from '../../redux/reducers/User';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  //const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
 
-  // console.log(email);
-  // console.log(password);
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      navigation.navigate(Routes.Home);
+    }
+  }, [user.isLoggedIn]);
 
   return (
     <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.flex]}>
@@ -43,7 +48,6 @@ const Login = ({navigation}) => {
           />
         </View>
         {error.length > 0 && <Text style={style.error}>{error} </Text>}
-        {/* {success.length > 0 && <Text style={style.success}>{success} </Text>} */}
         <View style={globalStyle.marginBottom24}>
           <Button
             isDisabled={email.length < 5 || password.length < 8}
@@ -54,7 +58,7 @@ const Login = ({navigation}) => {
                 setError(user.error);
               } else {
                 setError('');
-                navigation.navigate(Routes.Home);
+                dispatch(logIn(user.data));
               }
             }}
           />

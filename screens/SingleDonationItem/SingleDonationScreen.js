@@ -8,6 +8,7 @@ import Badge from '../../components/Badge/Badge';
 import Header from '../../components/Header/Header';
 import {Text} from 'react-native-gesture-handler';
 import Button from '../../components/Button/Button';
+import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 
 const SingleDonationScreen = ({navigation, route}) => {
   const donationItemInformation = useSelector(
@@ -19,7 +20,7 @@ const SingleDonationScreen = ({navigation, route}) => {
   return (
     <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.flex]}>
       <ScrollView showsVerticalScrollIndicator={false} style={style.container}>
-        <BackButton onPress={() => navigation.goBack()} />
+        <BackButton onPress={() => navigation.goBack()} icon={faArrowLeft} />
         <Image
           source={{uri: donationItemInformation.image}}
           style={style.image}

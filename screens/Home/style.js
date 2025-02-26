@@ -27,6 +27,7 @@ const style = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 100,
+    marginRight: horizontalScale(15),
   },
 
   searchBox: {

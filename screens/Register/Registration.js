@@ -9,6 +9,7 @@ import BackButton from '../../components/BackButton/BackButton';
 import {createUser} from '../../api/user';
 import {Routes} from '../../navigation/Routes';
 import {Text} from 'react-native-gesture-handler';
+import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 
 const Registration = ({navigation}) => {
   const [fullName, setFullName] = useState('');
@@ -34,7 +35,7 @@ const Registration = ({navigation}) => {
   return (
     <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.flex]}>
       <View style={style.backButton}>
-        <BackButton onPress={() => navigation.goBack()} />
+        <BackButton onPress={() => navigation.goBack()} icon={faArrowLeft} />
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}

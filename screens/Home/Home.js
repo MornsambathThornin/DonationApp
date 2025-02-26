@@ -24,6 +24,11 @@ import style from './style';
 import SingleDonationItem from '../../components/SingleDonationItem/SingleDonationItem';
 import {updateSelectedDonationId} from '../../redux/reducers/Donations';
 import {Routes} from '../../navigation/Routes';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faArrowRightFromBracket} from '@fortawesome/free-solid-svg-icons';
+import {resetToInitialState} from '../../redux/reducers/User';
+import BackButton from '../../components/BackButton/BackButton';
+import {logOut} from '../../api/user';
 
 const Home = ({navigation}) => {
   const user = useSelector(state => state.user);
@@ -87,14 +92,25 @@ const Home = ({navigation}) => {
           <View>
             <Text style={style.headerIntroText}>Hello, </Text>
             <View style={style.username}>
-              <Header title={user.firstName + ' ' + user.lastName[0] + '.👋'} />
+              <Header title={user.displayName + ' 👋'} />
             </View>
           </View>
-          <Image
-            source={{uri: user.profileImage}}
-            style={style.profileImage}
-            resizeMode="contain"
-          />
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image
+              source={{uri: user.profileImage}}
+              style={style.profileImage}
+              resizeMode="contain"
+            />
+            <BackButton
+              onPress={async () => {
+                dispatch(resetToInitialState());
+                await logOut();
+                navigation.navigate(Routes.Login);
+              }}
+              icon={faArrowRightFromBracket}
+              color="#156CF7"
+            />
+          </View>
         </View>
         <View style={style.searchBox}>
           <Search onSearch={() => {}} />

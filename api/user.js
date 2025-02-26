@@ -5,6 +5,8 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import {getApp} from 'firebase/app';
+import store from '../redux/store';
+import {updateToken} from '../redux/reducers/User';
 
 export const createUser = async (fullName, email, password) => {
   try {
@@ -14,7 +16,7 @@ export const createUser = async (fullName, email, password) => {
     await updateProfile(user.user, {
       displayName: fullName,
     });
-    console.log(user);
+
     return user;
   } catch (error) {
     if (error.code === 'auth/email-already-in-use') {
@@ -43,7 +45,6 @@ export const loginUser = async (email, password) => {
       },
     };
   } catch (error) {
-    console.log(error);
     if (error.code === 'auth/user-not-found') {
       return {
         error:
@@ -59,5 +60,28 @@ export const loginUser = async (email, password) => {
     } else {
       return {status: false, error: 'Something went wrong!'};
     }
+  }
+};
+
+export const logOut = async () => {
+  try {
+    const app = getApp();
+    const auth = getAuth(app);
+    await auth.signOut();
+  } catch (error) {
+    return {error: 'Something went wrong!'};
+  }
+};
+
+export const checkToken = async () => {
+  try {
+    const app = getApp();
+    const auth = getAuth(app);
+    let response = await auth.currentUser.getIdToken(true);
+    console.log('We are updating the token');
+    store.dispatch(updateToken(response));
+    return response;
+  } catch (error) {
+    return error;
   }
 };
